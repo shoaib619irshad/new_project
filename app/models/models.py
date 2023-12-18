@@ -1,4 +1,4 @@
-from sqlalchemy import Column , Integer , String
+from sqlalchemy import Column , Integer , String , ForeignKey
 from sqlalchemy.ext.hybrid import hybrid_property
 from flask_bcrypt import generate_password_hash , check_password_hash
 
@@ -12,6 +12,7 @@ class User(db.Model):
     username = Column(String(150),  nullable=False)
     email = Column(String(150), unique=True, nullable=False)
     h_password = Column('password' , String(150),  nullable=False)
+    task_id = Column(Integer, ForeignKey("tasks.id"))
 
     @hybrid_property
     def password(self):
