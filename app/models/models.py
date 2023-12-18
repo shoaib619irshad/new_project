@@ -26,3 +26,11 @@ class User(db.Model):
 
     def __repr__(self) -> str:
         return '<User %r>' % self.email
+    
+
+class Tasks(db.Model):
+    __tablename__ = 'tasks'
+
+    id = Column(Integer , primary_key=True)
+    title = Column(String(150) , nullable=False)
+    description = Column(String(500) , nullable=True)
