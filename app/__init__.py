@@ -19,7 +19,9 @@ def create_app(config_name):
     jwt.init_app(app)
 
     from app.routes.auth import auth_bp
+    from app.routes.tasks import tasks_bp
     app.register_blueprint(auth_bp)
+    app.register_blueprint(tasks_bp)
 
     return app
 
