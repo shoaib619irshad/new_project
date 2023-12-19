@@ -1,1 +1,1 @@
-from .decorators import token_required
+from .decorators import (adm_mgr_required, admin_required)

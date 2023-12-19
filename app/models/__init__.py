@@ -1,2 +1,1 @@
-from .models import User
-from .models import Tasks
+from .models import (User, Tasks, Role)

@@ -1,9 +1,15 @@
-from sqlalchemy import Column , Integer , String , ForeignKey
+from enum import Enum
+
+from sqlalchemy import Column, Integer, String, ForeignKey
 from sqlalchemy.ext.hybrid import hybrid_property
-from flask_bcrypt import generate_password_hash , check_password_hash
+from flask_bcrypt import generate_password_hash, check_password_hash
 
 from app import db
 
+class Role(Enum):
+    ADMIN = "admin"
+    MANAGER = "manager"
+    EMPLOYEE = "employee"
 
 class User(db.Model):
     __tablename__ = 'user'
@@ -12,7 +18,7 @@ class User(db.Model):
     username = Column(String(150),  nullable=False)
     email = Column(String(150), unique=True, nullable=False)
     h_password = Column('password' , String(150),  nullable=False)
-    task_id = Column(Integer, ForeignKey("tasks.id"))
+    role = Column(db.Enum(Role), nullable=False)
 
     @hybrid_property
     def password(self):
@@ -35,3 +41,4 @@ class Tasks(db.Model):
     id = Column(Integer , primary_key=True)
     title = Column(String(150) , nullable=False)
     description = Column(String(500) , nullable=True)
+    assigned_to = Column(Integer, ForeignKey("user.id"))
