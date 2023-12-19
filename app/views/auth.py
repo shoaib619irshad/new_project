@@ -2,8 +2,14 @@ from flask import request ,jsonify
 from flask.views import MethodView
 from sqlalchemy.exc import IntegrityError
 
-from app.models.models import User
+from app.models.models import Role, User
 from app.services.auth import *
+from app import jwt
+
+
+@jwt.user_identity_loader
+def user_identity_lookup(user):
+   return user
 
 class AuthView(MethodView):
     def __init__(self, model: User = None) -> None:
@@ -16,9 +22,12 @@ class AuthView(MethodView):
             username = request.json.get("username",None)
             email = request.json.get("email",None)
             password = request.json.get("password", None)
-            task_id = request.json.get("task_id",None)
+            role = request.json.get("role", Role.EMPLOYEE.value)
             if id is None or username is None or email is None or password is None:
                 return jsonify(message="Invalid Credentials") , 400
+            is_role_validate = validate_role(role)
+            if  not is_role_validate:
+                return jsonify(message="Invalid Role"), 400
             try:
                 user = create_user( 
                     model = self.model,
@@ -26,11 +35,11 @@ class AuthView(MethodView):
                     username = username,
                     email = email,
                     password = password,
-                    task_id = task_id
+                    role = role
                     )
                 return jsonify(message="User Signup successfully")
             except IntegrityError:
-                return jsonify(message="The id or email already exists or task_id not found")
+                return jsonify(message="The id or email already exists")
         
         elif request.path == "/login":
             email = request.json.get("email" , None)

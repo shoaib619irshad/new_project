@@ -1,17 +1,17 @@
 from flask import jsonify, request
 from flask.views import MethodView
+from flask_jwt_extended import jwt_required
 from sqlalchemy.exc import IntegrityError
 
 from app.models.models import Tasks
 from app.services.tasks import *
-from app.utils.decorators import token_required
 
 
 class TasksView(MethodView):
     def __init__(self , model: Tasks = None) -> None:
         self.model = model
 
-    @token_required
+    @jwt_required()
     def post(self):
         id = request.json.get("id",None)
         title = request.json.get("title", None)
@@ -30,7 +30,7 @@ class TasksView(MethodView):
              return jsonify(message="The given id already exists")
         
 
-    @token_required
+    @jwt_required()
     def get(self , id):
          task = get_task_by_id(id)
          if not task:
@@ -47,7 +47,7 @@ class TasksView(MethodView):
               "success": True
               }) 
     
-    @token_required
+    @jwt_required()
     def patch(self , id):
          data = request.json
          task = get_task_by_id(id)
@@ -63,7 +63,7 @@ class TasksView(MethodView):
               })
          
 
-    @token_required
+    @jwt_required()
     def delete(self , id):
          task = get_task_by_id(id)
          if not task:
