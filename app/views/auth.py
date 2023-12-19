@@ -16,6 +16,7 @@ class AuthView(MethodView):
             username = request.json.get("username",None)
             email = request.json.get("email",None)
             password = request.json.get("password", None)
+            task_id = request.json.get("task_id",None)
             if id is None or username is None or email is None or password is None:
                 return jsonify(message="Invalid Credentials") , 400
             try:
@@ -24,11 +25,12 @@ class AuthView(MethodView):
                     id = id,
                     username = username,
                     email = email,
-                    password = password
+                    password = password,
+                    task_id = task_id
                     )
                 return jsonify(message="User Signup successfully")
             except IntegrityError:
-                return jsonify(message="The id or email already exists")
+                return jsonify(message="The id or email already exists or task_id not found")
         
         elif request.path == "/login":
             email = request.json.get("email" , None)

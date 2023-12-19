@@ -6,12 +6,13 @@ from typing import Any
 from app import db
 from app.models.models import User
 
-def create_user(model: Any, id: int, username: str, email: str, password: str):
+def create_user(model: Any, id: int, username: str, email: str, password: str, task_id: str):
     user = model(
         id = id,
         username = username,
         email = email,
         password=password,
+        task_id = task_id
     )
     db.session.add(user)
     db.session.commit()

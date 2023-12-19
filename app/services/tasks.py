@@ -22,8 +22,6 @@ def get_task_by_id(id):
 
 def update_task(data ,id):
     task = get_task_by_id(id)
-    if "id" in data:
-        return jsonify(message="You cannot update the id")
     if "title" in data:
         if  data["title"].isspace() or data["title"] == "":
             return jsonify(message="Title cannot be empty")
