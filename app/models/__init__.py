@@ -1,1 +1,1 @@
-from .models import (User, Tasks, Role)
+from .models import (User, Tasks, Role, Status)

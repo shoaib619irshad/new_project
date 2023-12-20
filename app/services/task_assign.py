@@ -9,4 +9,5 @@ def get_user_by_id(id):
 def assign_task(task_id, assigned_to):
     task = get_task_by_id(task_id)
     task.assigned_to = assigned_to
+    task.status = "running"
     db.session.commit()

@@ -20,10 +20,8 @@ def create_app(config_name):
 
     from app.routes.auth import auth_bp
     from app.routes.tasks import tasks_bp
-    from app.routes.task_assign import task_assign_bp
     app.register_blueprint(auth_bp)
     app.register_blueprint(tasks_bp)
-    app.register_blueprint(task_assign_bp)
 
     return app
 
