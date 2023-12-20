@@ -11,6 +11,12 @@ class Role(Enum):
     MANAGER = "manager"
     EMPLOYEE = "employee"
 
+class Status(Enum):
+    UNASSIGNED = "unassigned"
+    RUNNING = "running"
+    PENDING = "pending"
+    COMPLETED = "completed"
+
 class User(db.Model):
     __tablename__ = 'user'
 
@@ -41,4 +47,5 @@ class Tasks(db.Model):
     id = Column(Integer , primary_key=True)
     title = Column(String(150) , nullable=False)
     description = Column(String(500) , nullable=True)
+    status = Column(db.Enum(Status), nullable=False)
     assigned_to = Column(Integer, ForeignKey("user.id"))
