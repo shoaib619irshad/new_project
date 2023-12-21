@@ -18,12 +18,11 @@ class AuthView(MethodView):
         
     def post(self):
         if request.path == "/signup":
-            id = request.json.get("id",None)
             username = request.json.get("username",None)
             email = request.json.get("email",None)
             password = request.json.get("password", None)
             role = request.json.get("role", Role.EMPLOYEE.value)
-            if id is None or username is None or email is None or password is None:
+            if username is None or email is None or password is None:
                 return jsonify(message="Invalid Credentials") , 400
             is_role_validate = validate_role(role)
             if  not is_role_validate:
@@ -31,7 +30,6 @@ class AuthView(MethodView):
             try:
                 user = create_user( 
                     model = self.model,
-                    id = id,
                     username = username,
                     email = email,
                     password = password,
@@ -39,7 +37,7 @@ class AuthView(MethodView):
                     )
                 return jsonify(message="User Signup successfully")
             except IntegrityError:
-                return jsonify(message="The id or email already exists")
+                return jsonify(message="The email already exists")
         
         elif request.path == "/login":
             email = request.json.get("email" , None)

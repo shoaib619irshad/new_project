@@ -13,19 +13,15 @@ class AdminView(MethodView):
 
     @admin_required
     def post(self):
-        id = request.json.get("id",None)
         title = request.json.get("title", None)
         description = request.json.get("description", "")
-        status = "unassigned"
-        if id is None or title is None:
+        if title is None:
             return jsonify(message="Invalid Credentials") , 400
         try:
             task = create_task(
                 model = self.model,
-                id = id,
                 title = title,
-                description = description,
-                status = status
+                description = description
                 )
             return jsonify(message="Task added successfully")
         except IntegrityError:

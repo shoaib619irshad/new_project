@@ -2,7 +2,7 @@ from flask import jsonify, request
 from flask.views import MethodView
 from flask_jwt_extended import get_current_user, jwt_required
 
-from app.models.models import Tasks
+from app.models.models import Role, Tasks
 from app.services.tasks import *
 
 
@@ -14,7 +14,7 @@ class ManagerView(MethodView):
     def get(self):
         manager = get_current_user()
         role = manager.role.value
-        if role != "manager":
+        if role != Role.MANAGER.value:
             return jsonify(message="Only managers can view their task")
         manager_id = manager.id
         task_list = get_tasks_assign(manager_id)
@@ -36,7 +36,7 @@ class ManagerView(MethodView):
     def patch(self, id):
         manager = get_current_user()
         role = manager.role.value
-        if role != "manager":
+        if role != Role.MANAGER.value:
             return jsonify(message="Only managers can update their task")
         manager_id = manager.id
         task_list = get_tasks_assign(manager_id)

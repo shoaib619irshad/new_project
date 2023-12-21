@@ -6,9 +6,8 @@ from typing import Any
 from app import db
 from app.models.models import Role, User
 
-def create_user(model: Any, id: int, username: str, email: str, password: str, role: str):
+def create_user(model: Any, username: str, email: str, password: str, role: str):
     user = model(
-        id = id,
         username = username,
         email = email,
         password=password,
