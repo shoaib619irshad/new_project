@@ -21,23 +21,7 @@ tasks_bp.add_url_rule(
 tasks_bp.add_url_rule(
     rule = '/admin/<id>',
     view_func = AdminView.as_view(
-        "display_task",
-        model = Tasks
-    )
-)
-
-tasks_bp.add_url_rule(
-    rule = '/admin/<id>',
-    view_func=AdminView.as_view(
-        "update_task",
-        model = Tasks
-    )
-)
-
-tasks_bp.add_url_rule(
-    rule = '/admin/<id>',
-    view_func = AdminView.as_view(
-        "delete_task",
+        "display_update_delete",
         model = Tasks
     )
 )
