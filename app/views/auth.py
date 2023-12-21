@@ -23,7 +23,7 @@ class AuthView(MethodView):
             password = request.json.get("password", None)
             role = request.json.get("role", Role.EMPLOYEE.value)
             if username is None or email is None or password is None:
-                return jsonify(message="Invalid Credentials") , 400
+                return jsonify(message="All fields are required") , 400
             is_role_validate = validate_role(role)
             if  not is_role_validate:
                 return jsonify(message="Invalid Role"), 400

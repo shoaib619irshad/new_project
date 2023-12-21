@@ -8,7 +8,7 @@ class TaskPagination(MethodView):
           self.model = model
           
      def get(self, no):
-          per_page = request.args.get('param')
+          per_page = int(request.args.get('per_page', 2))
           tasks = Tasks.query.paginate(page=no, per_page=per_page)
           task_list = []
           for task in tasks.items:
