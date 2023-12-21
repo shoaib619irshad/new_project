@@ -5,76 +5,77 @@ from app.views.admin import AdminView
 from app.views.manager import ManagerView
 from app.views.employee import EmployeeView
 from app.views.task_assign import *
+from app.views.task_pgn import TaskPagination
 
 
 tasks_bp = Blueprint('task', __name__, url_prefix='/task')
 
 tasks_bp.add_url_rule(
-     rule = '/admin/add',
+     rule = '/admin',
     view_func = AdminView.as_view(
-        "add",
+        "add_task",
         model = Tasks,
     )
 )
 
 tasks_bp.add_url_rule(
-    rule = '/admin/display/<id>',
+    rule = '/admin/<id>',
     view_func = AdminView.as_view(
-        "display",
+        "display_task",
         model = Tasks
     )
 )
 
 tasks_bp.add_url_rule(
-    rule = '/admin/update/<id>',
+    rule = '/admin/<id>',
     view_func=AdminView.as_view(
-        "update",
+        "update_task",
         model = Tasks
     )
 )
 
 tasks_bp.add_url_rule(
-    rule = '/admin/delete/<id>',
+    rule = '/admin/<id>',
     view_func = AdminView.as_view(
-        "delete",
+        "delete_task",
         model = Tasks
     )
 )
 
 tasks_bp.add_url_rule(
-    rule='/manager/display',
+    rule='/manager',
     view_func=ManagerView.as_view(
-        "display_mgr",
+        "display_mgr_task",
         model = Tasks
     )
 )
 
 tasks_bp.add_url_rule(
-    rule='/manager/update/<id>',
+    rule='/manager/<id>',
     view_func=ManagerView.as_view(
-        "update_mgr",
+        "update_mgr_task",
         model = Tasks
     )
 )
 
 tasks_bp.add_url_rule(
-    rule='/employee/display',
+    rule='/employee',
     view_func=EmployeeView.as_view(
-        "display_emp",
+        "display_emp_task",
         model = Tasks
     )
 )
 
 tasks_bp.add_url_rule(
-    rule='/employee/update/<id>',
+    rule='/employee/<id>',
     view_func=EmployeeView.as_view(
-        "update_emp",
+        "update_emp_task",
         model = Tasks
     )
 )
 
 tasks_bp.add_url_rule(
-    rule='/employee/<task_id>',
+    rule='/employee/assign/<task_id>',
     view_func=EmployeeTaskAssignView.as_view(
         "emp_task_assign",
         model = Tasks
@@ -82,9 +83,17 @@ tasks_bp.add_url_rule(
 )
 
 tasks_bp.add_url_rule(
-    rule='/manager/<task_id>',
+    rule='/manager/assign/<task_id>',
     view_func=ManagerTaskAssignView.as_view(
         "mgr_task_assign",
+        model = Tasks
+    )
+)
+
+tasks_bp.add_url_rule(
+    rule='/display/<int:no>',
+    view_func=TaskPagination.as_view(
+        "display_tasks",
         model = Tasks
     )
 )

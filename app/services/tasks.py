@@ -5,12 +5,10 @@ from app import db
 from app.models.models import Tasks
 
 
-def create_task(model: Any, id: int, title: str, description: str, status: str):
+def create_task(model: Any, title: str, description: str):
     task = model(
-        id = id,
         title = title,
-        description = description,
-        status = status
+        description = description
     )
     db.session.add(task)
     db.session.commit()
@@ -38,9 +36,8 @@ def delete_task(task):
     db.session.commit()
 
 def get_tasks_assign(user_id):
-    tasks = Tasks.query.all()
-    task_list = [task for task in tasks if task.assigned_to == user_id ]
-    return task_list
+    tasks = Tasks.query.filter(Tasks.assigned_to == user_id).all()
+    return tasks
 
 def update_status(id, status):
     task = get_task_by_id(id)

@@ -20,7 +20,7 @@ class Status(Enum):
 class User(db.Model):
     __tablename__ = 'user'
 
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
     username = Column(String(150),  nullable=False)
     email = Column(String(150), unique=True, nullable=False)
     h_password = Column('password' , String(150),  nullable=False)
@@ -44,8 +44,8 @@ class User(db.Model):
 class Tasks(db.Model):
     __tablename__ = 'tasks'
 
-    id = Column(Integer , primary_key=True)
+    id = Column(Integer , primary_key=True, autoincrement=True)
     title = Column(String(150) , nullable=False)
     description = Column(String(500) , nullable=True)
-    status = Column(db.Enum(Status), nullable=False)
+    status = Column(db.Enum(Status), nullable=False, default=Status.UNASSIGNED.value)
     assigned_to = Column(Integer, ForeignKey("user.id"))

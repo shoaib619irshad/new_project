@@ -1,4 +1,4 @@
-from app.models.models import User
+from app.models.models import Status, User
 from app import db
 from app.services.tasks import get_task_by_id
 
@@ -9,5 +9,5 @@ def get_user_by_id(id):
 def assign_task(task_id, assigned_to):
     task = get_task_by_id(task_id)
     task.assigned_to = assigned_to
-    task.status = "running"
+    task.status = Status.RUNNING.value
     db.session.commit()

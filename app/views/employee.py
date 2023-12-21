@@ -2,7 +2,7 @@ from flask import jsonify, request
 from flask.views import MethodView
 from flask_jwt_extended import get_current_user, jwt_required
 
-from app.models.models import Tasks
+from app.models.models import Role, Tasks
 from app.services.tasks import *
 
 
@@ -14,7 +14,7 @@ class EmployeeView(MethodView):
     def get(self):
         employee = get_current_user()
         role = employee.role.value
-        if role != "employee":
+        if role != Role.EMPLOYEE.value:
             return jsonify(message="Only employees can view their task")
         employee_id = employee.id
         task_list = get_tasks_assign(employee_id)
@@ -36,7 +36,7 @@ class EmployeeView(MethodView):
     def patch(self, id):
         employee = get_current_user()
         role = employee.role.value
-        if role != "employee":
+        if role != Role.EMPLOYEE.value:
             return jsonify(message="Only employees can update their task")
         employee_id = employee.id
         task_list = get_tasks_assign(employee_id)

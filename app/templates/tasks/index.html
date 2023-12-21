@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tasks</title>
+</head>
+<body>
+    {% block content %}
+    <h1>{% block title %} Tasks {% endblock %}</h1>
+    <h2>Page {{ tasks.page }}</h2>
+    <div >
+        {% for task in tasks.items %}
+            <div>
+                <p>#{{ task.id }}</p>
+                <p>{{ task.title }}</p>
+                <p>{{ task.description }}</p>
+                <p>{{ task.status.value }}</p>
+            </div>
+        {% endfor %}
+    </div>
+    <div>
+        {% if tasks.has_prev %}
+            <span>
+                <a href="{{ url_for('task.display_tasks', no=tasks.prev_num) }}">
+                    {{ '<<<' }}
+                </a>
+            </span>
+        {% endif %}
+        
+        {% for number in tasks.iter_pages() %}
+            {% if tasks.page != number %}
+                <span>
+                    <a href="{{url_for('task.display_tasks', no=number) }}">
+                    {{ number }}
+                    </a>
+                </span>
+            {% else %}
+                <span>{{ number }}</span>
+            {% endif %}
+        {% endfor %}
+
+        {% if tasks.has_next %}
+        <span>
+            <a href="{{ url_for('task.display_tasks', no=tasks.next_num) }}">
+                {{ '>>>' }}
+            </a>
+        </span>
+    {% endif %}
+
+      
+    </div>
+    {% endblock %}
+</body>
+</html>
